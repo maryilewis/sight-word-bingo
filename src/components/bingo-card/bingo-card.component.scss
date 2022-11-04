@@ -1,0 +1,94 @@
+.bingo-button {
+	font-family: "Quicksand";
+	background-color: greenyellow;
+	border: 2px solid black;
+	border-radius: unset;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 5.5vh 0;
+	font-size: 8vw;
+	cursor: pointer;
+	// border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+}
+
+.word-button {
+	font-family: "Quicksand";
+	font-size: 6vw;
+	box-shadow: 20px 38px 34px -26px hsla(0,0%,0%,.2);
+	border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+	background-color: yellow;
+	padding: .5rem 1rem;
+	font-weight: bold;
+}
+
+@media screen and (min-width: 1000px) {
+	.bingo-button {
+	   font-size: 80px;
+	   padding: 1em 0;
+	}
+  }
+
+
+.bingo-bingo, .bingo-correct {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	display: flex;
+	left: 0;
+	top: 0;
+	justify-content: center;
+	align-items: center;
+	pointer-events: none;
+	.icon {
+		width: 50%;
+		height: 50%;
+		z-index: 100;
+		position: relative;
+		transition: width 2s;
+	}
+}
+
+.bingo-correct .icon {
+	fill: gold;
+}
+
+.bingo-bingo .icon {
+	fill: palevioletred;
+}
+
+.bingo-cell {
+	width: 30vw;
+	height: 25vh;
+	max-height: 400px;
+	max-width: 400px;
+	text-align: center;
+	position: relative;
+}
+
+.bingo-table {
+	margin: auto;
+}
+
+/**
+button fades out, star starts small and gets big, spins and slows down and stops
+**/
+
+.fade-out {
+	animation: fadeOut ease 1s forwards;
+	animation-iteration-count: 1;
+  }
+  @keyframes fadeOut {
+	0% {
+	  display: none;
+	}
+	1% {
+		display: block;
+		opacity:1;
+	  }
+	100% {
+		display: block;
+	  opacity:0;
+	}
+  }
