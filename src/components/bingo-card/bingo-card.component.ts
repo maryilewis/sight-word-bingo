@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { WordDefinition, WordState } from 'src/common/common';
+import { GameState, WordDefinition, WordState } from 'src/common/common';
 import { BingoService } from 'src/services/bingo.service';
 
 @Component({
@@ -10,10 +10,11 @@ import { BingoService } from 'src/services/bingo.service';
 export class BingoCardComponent implements OnInit {
 
 	public cardGrid: WordDefinition[][] = [[]];
-	public wordState = WordState;
+	public currentGameState: GameState = GameState.inProgress;
 
-	// just for testing
-	public currentWord = "";
+	//make enum public to use in html
+	public wordState = WordState;
+	public GameState = GameState;
 
 	/**
 	 * singleton
@@ -26,6 +27,9 @@ export class BingoCardComponent implements OnInit {
 	this.bingoService.cardList$.subscribe(list => {
 		this.cardGrid = this.cardify(list);
 	});
+	this.bingoService.gameState$.subscribe(gameState => {
+		this.currentGameState = gameState;
+	});
   }
 
   cardify(list: WordDefinition[]): WordDefinition[][] {
@@ -37,9 +41,15 @@ export class BingoCardComponent implements OnInit {
   }
 
   checkWord(word: WordDefinition) {
-	console.log("this is the word you clicked", word);
 	this.bingoService.checkWord(word);
-	this.currentWord = this.bingoService.getCurrentWord().word;
+  }
+
+  repeatWord() {
+	this.bingoService.readWord();
+  }
+
+  newGame() {
+	this.bingoService.newGame();
   }
 
   ngOnInit(): void {

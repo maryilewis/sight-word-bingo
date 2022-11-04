@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { WordDefinition, WORDS, WordState } from '../common/common';
+import { GameState, WordDefinition, WORDS, WordState } from '../common/common';
 
 const CARD_SIZE = 9;
+declare var startConfetti: any;
+declare var stopConfetti: any;
 
 @Injectable({
 	providedIn: 'root'
@@ -12,6 +14,9 @@ export class BingoService {
 
 	cardList: BehaviorSubject<WordDefinition[]> = new BehaviorSubject<WordDefinition[]>([]);
 	cardList$: Observable<WordDefinition[]> = this.cardList.asObservable();
+
+	gameState: BehaviorSubject<GameState> = new BehaviorSubject<GameState>(GameState.inProgress);
+	gameState$: Observable<GameState> = this.gameState.asObservable();
 
 	callWords: WordDefinition[] = [];
 	bingo: boolean = false;
@@ -36,9 +41,16 @@ export class BingoService {
 	 * -
 	 * @returns 
 	 */
+	newGame() {
+		console.log("New game");
+		this.initializeCard();
+		this.nextWord();
+		this.gameState.next(GameState.inProgress);
+		stopConfetti();
+	}
 
 	initializeCard() {
-		let list = this.shuffle(WORDS).slice(0, CARD_SIZE);
+		let list = this.shuffle(WORDS).slice(0, CARD_SIZE).map(word => { word.state = WordState.new; return word; });
 
 		// make sure two and to and too aren't in the same puzzle
 
@@ -60,17 +72,28 @@ export class BingoService {
 	}
 
 	readWord() {
-		let audio = new Audio();
-		audio.src = this.currentWord.audioPath;
-		audio.load();
-		audio.play();
+		console.log("read", this.currentWord.word);
+		// let audio = new Audio();
+		// audio.src = this.currentWord.audioPath;
+		// audio.load();
+		// audio.play();
+	}
+
+	resetIncorrects() {
+		const list = this.cardList.getValue();
+		list.forEach(word => {
+			if (word.state == WordState.incorrect) {
+				word.state = WordState.new;
+			}
+		})
 	}
 
 	checkWord(word: WordDefinition) {
 		if (word == this.currentWord) {
 			word.state = WordState.correct;
+			this.resetIncorrects();
 			this.checkForBingo();
-			if (!this.bingo) {
+			if (this.gameState.getValue() != GameState.over) {
 				this.nextWord();
 			}
 		} else {
@@ -97,10 +120,11 @@ export class BingoService {
 				}
 			})
 			if (allCorrect) {
-				this.bingo = true;
 				set.forEach(index => {
 					list[index].state = WordState.bingo;
 				});
+				this.gameState.next(GameState.over);
+				startConfetti();
 			}
 		})
 		this.cardList.next(list);

@@ -1,15 +1,19 @@
-{{ currentWord }}
 <table class="bingo-table">
 	<tbody>
 		<tr *ngFor="let row of cardGrid">
 			<td *ngFor="let cell of row" class="bingo-cell">
-				<button class="bingo-button" (click)="checkWord(cell)" [ngClass]="{'fade-out' : cell.state == wordState.correct || cell.state == wordState.bingo }">
+				<button class="bingo-button" (click)="checkWord(cell)" [ngClass]="{'done' : cell.state == wordState.correct || cell.state == wordState.bingo }">
 					{{cell.word}}
 				</button>
 				<ng-container [ngSwitch]="cell.state">
 					<ng-container *ngSwitchCase="wordState.correct">
 						<div class="bingo-correct">
 							<i-feather name="star" class="icon"></i-feather>
+						</div>
+					</ng-container>
+					<ng-container *ngSwitchCase="wordState.incorrect">
+						<div class="bingo-incorrect">
+							<i-feather name="x" class="icon"></i-feather>
 						</div>
 					</ng-container>
 					<ng-container *ngSwitchCase="wordState.bingo">
@@ -22,5 +26,7 @@
 		</tr>
 	</tbody>
 </table>
-<button class="word-button">Repeat Word</button>
-<button class="word-button">New Game</button>
+<div class="button-holder">
+	<button *ngIf="currentGameState === GameState.inProgress" class="word-button repeat-word" (click)="repeatWord()">Repeat Word</button>
+	<button *ngIf="currentGameState === GameState.over" class="word-button new-game" (click)="newGame()">New Game</button>
+</div>

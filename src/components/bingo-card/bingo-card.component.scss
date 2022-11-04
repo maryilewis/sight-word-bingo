@@ -12,14 +12,27 @@
 	// border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
 }
 
+.button-holder {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+}
+
 .word-button {
 	font-family: "Quicksand";
 	font-size: 6vw;
 	box-shadow: 20px 38px 34px -26px hsla(0,0%,0%,.2);
 	border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
-	background-color: yellow;
 	padding: .5rem 1rem;
 	font-weight: bold;
+	cursor: pointer;
+	&.new-game {
+		background-color: aqua;
+	}
+	&.repeat-word {
+		background-color: yellow;
+	}
 }
 
 @media screen and (min-width: 1000px) {
@@ -30,7 +43,7 @@
   }
 
 
-.bingo-bingo, .bingo-correct {
+.bingo-bingo, .bingo-correct, .bingo-incorrect {
 	position: absolute;
 	width: 100%;
 	height: 100%;
@@ -46,7 +59,7 @@
 		height: 50%;
 		z-index: 100;
 		position: relative;
-		transition: width 2s;
+		animation: pulse 2s linear infinite;
 	}
 }
 
@@ -70,6 +83,26 @@
 .bingo-table {
 	margin: auto;
 }
+
+.done {
+	display: none;
+}
+
+
+@keyframes pulse {
+	0% {
+		transform: scale(0.95);
+	}
+
+	50% {
+		transform: scale(1);
+	}
+
+	100% {
+		transform: scale(0.95);
+	}
+}
+
 
 /**
 button fades out, star starts small and gets big, spins and slows down and stops

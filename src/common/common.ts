@@ -6,6 +6,11 @@ export enum WordState {
 	bingo,
 };
 
+export enum GameState {
+	inProgress,
+	over
+};
+
 export interface WordDefinition {
 	word: string;
 	audioPath: string; // path to audio asset
