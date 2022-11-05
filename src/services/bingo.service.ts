@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { GameState, WordDefinition, WORDS, WordState } from '../common/common';
+import { environment } from './../environments/environment';
 
 const CARD_SIZE = 9;
+// confetti.js functions
 declare var startConfetti: any;
 declare var stopConfetti: any;
 
@@ -10,37 +12,26 @@ declare var stopConfetti: any;
 	providedIn: 'root'
 })
 export class BingoService {
-	currentWord: WordDefinition;
 
+	// The current word being asked for
+	currentWord: WordDefinition | undefined;
+
+	// The words ont he current bingo card
 	cardList: BehaviorSubject<WordDefinition[]> = new BehaviorSubject<WordDefinition[]>([]);
 	cardList$: Observable<WordDefinition[]> = this.cardList.asObservable();
 
-	gameState: BehaviorSubject<GameState> = new BehaviorSubject<GameState>(GameState.inProgress);
+	// The user must click a button to start the game, or sound won't work
+	// Is the game in progress or over
+	gameState: BehaviorSubject<GameState> = new BehaviorSubject<GameState>(GameState.notStarted);
 	gameState$: Observable<GameState> = this.gameState.asObservable();
 
 	callWords: WordDefinition[] = [];
 	bingo: boolean = false;
 
-	getCurrentWord() {
-		return this.currentWord;
-	}
-
 	constructor() {
-		this.initializeCard();
-		this.currentWord = this.callWords.shift() as WordDefinition;
-		this.readWord()
+
 	}
 
-	/**
-	 * observables:
-	 * - bingo card: a 9-length list of words and states
-	 * 
-	 * functions
-	 * - handle word click
-	 * 
-	 * -
-	 * @returns 
-	 */
 	newGame() {
 		console.log("New game");
 		this.initializeCard();
@@ -49,7 +40,7 @@ export class BingoService {
 		stopConfetti();
 	}
 
-	initializeCard() {
+	private initializeCard() {
 		let list = this.shuffle(WORDS).slice(0, CARD_SIZE).map(word => { word.state = WordState.new; return word; });
 
 		// make sure two and to and too aren't in the same puzzle
@@ -58,29 +49,30 @@ export class BingoService {
 		this.callWords = this.shuffle(list);
     }
 
-	shuffle(list: Array<WordDefinition>): WordDefinition[] {
+	private shuffle(list: Array<WordDefinition>): WordDefinition[] {
 		return list
 			.map(value => ({ value, sort: Math.random() }))
 			.sort((a, b) => a.sort - b.sort)
 			.map(({ value }) => value);
 	}
 
-	nextWord() {
+	private nextWord() {
 		// It won't be empty, I promise
 		this.currentWord = this.callWords.shift() as WordDefinition;
 		this.readWord();
 	}
 
 	readWord() {
-		console.log("read", this.currentWord.word);
-		let audio = new Audio();
-		audio.src = this.currentWord.audioPath;
-		// audio.src = "../assets/audio/test.wav"		;
-		audio.load();
-		audio.play();
+		if (this.currentWord) {
+			console.log("read", this.currentWord.word);
+			let audio = new Audio();
+			audio.src = environment.assetFolder + this.currentWord.audioPath;
+			audio.load();
+			audio.play();
+		}
 	}
 
-	resetIncorrects() {
+	private resetIncorrects() {
 		const list = this.cardList.getValue();
 		list.forEach(word => {
 			if (word.state == WordState.incorrect) {
@@ -100,16 +92,16 @@ export class BingoService {
 		} else {
 			word.state = WordState.incorrect;
 		}
-		// find word in cardList and update state
 	}
-	confettiFive() {
+
+	private confettiFive() {
 		startConfetti();
 		setTimeout(() => {
 			stopConfetti();
 		}, 5000);
 	}
 
-	checkForBingo(): void {
+	private checkForBingo(): void {
 		const list = this.cardList.getValue();
 		const indexes = [[0,1,2],
 		[3,4,5],
@@ -122,7 +114,7 @@ export class BingoService {
 		indexes.forEach(set => {
 			let allCorrect = true;
 			set.forEach(index => {
-				if (list[index].state !== WordState.correct) {
+				if (list[index].state !== WordState.correct && list[index].state !== WordState.bingo) {
 					allCorrect = false;
 				}
 			})

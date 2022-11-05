@@ -1,3 +1,10 @@
+<div *ngIf="currentGameState === GameState.notStarted" class="button-holder">
+	<button (click)="newGame()" class="word-button play-button">
+		Play Sight Word Bingo
+		<i-feather name="play" class="icon"></i-feather>
+	</button>
+</div>
+<ng-container *ngIf="currentGameState !== GameState.notStarted">
 <div class="bingo-table">
 	<div *ngFor="let row of cardGrid" class="bingo-row">
 		<div *ngFor="let cell of row" class="bingo-cell">
@@ -29,3 +36,4 @@
 	<button *ngIf="currentGameState === GameState.inProgress" class="word-button repeat-word" (click)="repeatWord()">Repeat Word</button>
 	<button *ngIf="currentGameState === GameState.over" class="word-button new-game" (click)="newGame()">New Game</button>
 </div>
+</ng-container>

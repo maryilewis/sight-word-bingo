@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FeatherModule } from 'angular-feather';
-import { Star, Heart, X } from 'angular-feather/icons';
+import { Star, Heart, X, Play } from 'angular-feather/icons';
 
 // Select some icons (use an object, not an array)
 const icons = {
   Star,
   Heart,
-  X
+  X,
+  Play
 };
 
 @NgModule({
