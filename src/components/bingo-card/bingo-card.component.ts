@@ -43,10 +43,6 @@ export class BingoCardComponent implements OnInit {
 	return result;
   }
 
-  checkWord(word: WordDefinition) {
-	this.bingoService.checkWord(word);
-  }
-
   repeatWord() {
 	this.bingoService.readWord();
   }

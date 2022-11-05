@@ -23,114 +23,6 @@
 	margin: 2px;
 }
 
-.bingo-button {
-	font-family: "Quicksand";
-	background-color: $lime;
-	border-radius: unset;
-	border: unset;
-	width: 100%;
-	height: 100%;
-	margin: 0;
-	font-size: 7vw;
-	cursor: pointer;
-	transition: opacity 2s;
-	opacity: 1;
-	&:hover {
-		background-color: color.adjust($lime, $lightness: 10%);
-	}
-	&.done {
-		opacity: 0;
-		pointer-events: none;
-	}
-}
-@media screen and (min-width: 1000px) {
-	.bingo-button {
-	   font-size: 80px;
-	}
-  }
-
-.bingo-bingo, .bingo-correct, .bingo-incorrect {
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	margin: 0;
-	display: flex;
-	left: 0;
-	top: 0;
-	justify-content: center;
-	align-items: center;
-	pointer-events: none;
-	.icon {
-		width: 12vw;
-		height: auto;
-		z-index: 100;
-		position: relative;
-	}
-}
-
-.bingo-correct .icon {
-	fill: $lemon;
-	animation: pulse 2s linear infinite;
-}
-
-.bingo-bingo .icon {
-	fill: $magenta;
-	animation: spin 1s ease-in-out;
-	animation-iteration-count: 3;
-}
-
-
-@keyframes pulse {
-	0% {
-		transform: scale(0.95);
-	}
-
-	50% {
-		transform: scale(1);
-	}
-
-	100% {
-		transform: scale(0.95);
-	}
-}
-
-@keyframes spin {
-	0% {
-		transform: scaleX(1);
-	}
-
-	50% {
-		transform: scaleX(.01);
-	}
-
-	100% {
-		transform: scaleX(1);
-	}
-}
-
-
-/**
-button fades out, star starts small and gets big, spins and slows down and stops
-**/
-
-.fade-out {
-	animation: fadeOut ease 1s forwards;
-	animation-iteration-count: 1;
-  }
-  @keyframes fadeOut {
-	0% {
-	  display: none;
-	}
-	1% {
-		display: block;
-		opacity:1;
-	  }
-	100% {
-		display: block;
-	  opacity:0;
-	}
-  }
-
 
   
 .button-holder {
@@ -145,7 +37,7 @@ button fades out, star starts small and gets big, spins and slows down and stops
 	font-size: 6vw;
 	box-shadow: 20px 38px 34px -26px hsla(0,0%,0%,.2);
 	border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
-	padding: .5rem 1rem;
+	padding: .25em 1em;
 	font-weight: bold;
 	cursor: pointer;
 	&.play-button {
@@ -161,14 +53,21 @@ button fades out, star starts small and gets big, spins and slows down and stops
 			background-color: color.adjust($lime, $lightness: 10%);
 		}
 	}
+
 	&.new-game {
-		background: linear-gradient(-45deg, $aqua, #23a6d5, #23d5ab);
+		background: linear-gradient(-45deg, $aqua, $lime);
 		background-size: 400% 400%;
 		animation: gradient 15s ease infinite;
 		animation-delay: 4s;
 
+		border: 2px solid $lemon;
+		box-shadow: 0 0 10px $lemon;
+		border-radius: 10px;
+
 		&:hover {
-			background-color: color.adjust($aqua, $lightness: 10%);
+			background: color.adjust($aqua, $lightness: 10%);
+			box-shadow: none;
+			border: 2px solid $marina;
 		}
 	}
 	&.repeat-word {

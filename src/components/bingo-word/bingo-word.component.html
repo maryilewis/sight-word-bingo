@@ -1,0 +1,19 @@
+<button
+	class="bingo-button"
+	(click)="checkWord(word)"
+	[ngClass]="{'done' : state == wordState.correct || state == wordState.bingo }"
+	[disabled]="state != wordState.new">
+	{{word}}
+</button>
+<ng-container [ngSwitch]="state">
+<ng-container *ngSwitchCase="wordState.correct">
+	<div class="bingo-correct">
+		<i-feather name="star" class="icon"></i-feather>
+	</div>
+</ng-container>
+<ng-container *ngSwitchCase="wordState.bingo">
+	<div class="bingo-bingo">
+		<i-feather name="heart" class="icon"></i-feather>
+	</div>
+</ng-container>
+</ng-container>

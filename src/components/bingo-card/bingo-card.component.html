@@ -8,26 +8,7 @@
 <div class="bingo-table">
 	<div *ngFor="let row of cardGrid" class="bingo-row">
 		<div *ngFor="let cell of row" class="bingo-cell">
-			<button class="bingo-button" (click)="checkWord(cell)" [ngClass]="{'done' : cell.state == wordState.correct || cell.state == wordState.bingo }">
-				{{cell.word}}
-			</button>
-			<ng-container [ngSwitch]="cell.state">
-				<ng-container *ngSwitchCase="wordState.correct">
-					<div class="bingo-correct">
-						<i-feather name="star" class="icon"></i-feather>
-					</div>
-				</ng-container>
-				<ng-container *ngSwitchCase="wordState.incorrect">
-					<div class="bingo-incorrect">
-						<i-feather name="x" class="icon"></i-feather>
-					</div>
-				</ng-container>
-				<ng-container *ngSwitchCase="wordState.bingo">
-					<div class="bingo-bingo">
-						<i-feather name="heart" class="icon"></i-feather>
-					</div>
-				</ng-container>
-			</ng-container>
+			<app-bingo-word [word]="cell.word" [state]="cell.state"></app-bingo-word>
 		</div>
 	</div>
 

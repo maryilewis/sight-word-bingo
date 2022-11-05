@@ -20,7 +20,7 @@ export class BingoService {
 	cardList: BehaviorSubject<WordDefinition[]> = new BehaviorSubject<WordDefinition[]>([]);
 	cardList$: Observable<WordDefinition[]> = this.cardList.asObservable();
 
-	// The user must click a button to start the game, or sound won't work
+	// Note: The user must click a button to start the game, or sound won't work on mobile
 	// Is the game in progress or over
 	gameState: BehaviorSubject<GameState> = new BehaviorSubject<GameState>(GameState.notStarted);
 	gameState$: Observable<GameState> = this.gameState.asObservable();
@@ -81,17 +81,23 @@ export class BingoService {
 		})
 	}
 
-	checkWord(word: WordDefinition) {
-		if (word == this.currentWord) {
-			word.state = WordState.correct;
-			this.resetIncorrects();
-			this.checkForBingo();
-			if (this.gameState.getValue() != GameState.over) {
-				this.nextWord();
+	checkWord(wordString: string) {
+		const list = this.cardList.getValue();
+		const word: WordDefinition | undefined = list.find(wordDef => wordDef.word == wordString);
+		if (word) {
+			if (word.word == this.currentWord?.word) {
+				word.state = WordState.correct;
+				this.resetIncorrects();
+				this.checkForBingo();
+				if (this.gameState.getValue() != GameState.over) {
+					this.nextWord();
+				}
+			} else {
+				word.state = WordState.incorrect;
+				this.readWord();
 			}
-		} else {
-			word.state = WordState.incorrect;
 		}
+		this.cardList.next(list);
 	}
 
 	private confettiFive() {
