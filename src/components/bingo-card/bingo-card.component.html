@@ -1,31 +1,30 @@
-<table class="bingo-table">
-	<tbody>
-		<tr *ngFor="let row of cardGrid">
-			<td *ngFor="let cell of row" class="bingo-cell">
-				<button class="bingo-button" (click)="checkWord(cell)" [ngClass]="{'done' : cell.state == wordState.correct || cell.state == wordState.bingo }">
-					{{cell.word}}
-				</button>
-				<ng-container [ngSwitch]="cell.state">
-					<ng-container *ngSwitchCase="wordState.correct">
-						<div class="bingo-correct">
-							<i-feather name="star" class="icon"></i-feather>
-						</div>
-					</ng-container>
-					<ng-container *ngSwitchCase="wordState.incorrect">
-						<div class="bingo-incorrect">
-							<i-feather name="x" class="icon"></i-feather>
-						</div>
-					</ng-container>
-					<ng-container *ngSwitchCase="wordState.bingo">
-						<div class="bingo-bingo">
-							<i-feather name="heart" class="icon"></i-feather>
-						</div>
-					</ng-container>
+<div class="bingo-table">
+	<div *ngFor="let row of cardGrid" class="bingo-row">
+		<div *ngFor="let cell of row" class="bingo-cell">
+			<button class="bingo-button" (click)="checkWord(cell)" [ngClass]="{'done' : cell.state == wordState.correct || cell.state == wordState.bingo }">
+				{{cell.word}}
+			</button>
+			<ng-container [ngSwitch]="cell.state">
+				<ng-container *ngSwitchCase="wordState.correct">
+					<div class="bingo-correct">
+						<i-feather name="star" class="icon"></i-feather>
+					</div>
 				</ng-container>
-			</td>
-		</tr>
-	</tbody>
-</table>
+				<ng-container *ngSwitchCase="wordState.incorrect">
+					<div class="bingo-incorrect">
+						<i-feather name="x" class="icon"></i-feather>
+					</div>
+				</ng-container>
+				<ng-container *ngSwitchCase="wordState.bingo">
+					<div class="bingo-bingo">
+						<i-feather name="heart" class="icon"></i-feather>
+					</div>
+				</ng-container>
+			</ng-container>
+		</div>
+	</div>
+
+</div>
 <div class="button-holder">
 	<button *ngIf="currentGameState === GameState.inProgress" class="word-button repeat-word" (click)="repeatWord()">Repeat Word</button>
 	<button *ngIf="currentGameState === GameState.over" class="word-button new-game" (click)="newGame()">New Game</button>

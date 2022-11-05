@@ -102,6 +102,12 @@ export class BingoService {
 		}
 		// find word in cardList and update state
 	}
+	confettiFive() {
+		startConfetti();
+		setTimeout(() => {
+			stopConfetti();
+		}, 5000);
+	}
 
 	checkForBingo(): void {
 		const list = this.cardList.getValue();
@@ -121,11 +127,11 @@ export class BingoService {
 				}
 			})
 			if (allCorrect) {
+				this.confettiFive();
 				set.forEach(index => {
 					list[index].state = WordState.bingo;
 				});
 				this.gameState.next(GameState.over);
-				startConfetti();
 			}
 		})
 		this.cardList.next(list);

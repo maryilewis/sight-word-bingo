@@ -1,6 +1,27 @@
 @use 'sass:color' as color;
 @import '../../assets/variables.scss';
 
+.bingo-table {
+	margin: auto;
+}
+
+.bingo-row {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.bingo-cell {
+	width: 30vw;
+	height: 25vh;
+	max-height: 400px;
+	max-width: 400px;
+	text-align: center;
+	position: relative;
+	border: 2px solid black;
+	padding: 0;
+	margin: 2px;
+}
 
 .bingo-button {
 	font-family: "Quicksand";
@@ -17,37 +38,11 @@
 	&:hover {
 		background-color: color.adjust($lime, $lightness: 10%);
 	}
-}
-
-.button-holder {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-
-}
-
-.word-button {
-	font-family: "Quicksand";
-	font-size: 6vw;
-	box-shadow: 20px 38px 34px -26px hsla(0,0%,0%,.2);
-	border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
-	padding: .5rem 1rem;
-	font-weight: bold;
-	cursor: pointer;
-	&.new-game {
-		background-color: $aqua;
-		&:hover {
-			background-color: color.adjust($aqua, $lightness: 10%);
-		}
-	}
-	&.repeat-word {
-		background-color: $lemon;
-		&:hover {
-			background-color: color.adjust($lemon, $lightness: 10%);
-		}
+	&.done {
+		opacity: 0;
+		pointer-events: none;
 	}
 }
-
 @media screen and (min-width: 1000px) {
 	.bingo-button {
 	   font-size: 80px;
@@ -70,36 +65,18 @@
 		height: auto;
 		z-index: 100;
 		position: relative;
-		animation: pulse 2s linear infinite;
 	}
 }
 
 .bingo-correct .icon {
 	fill: $lemon;
+	animation: pulse 2s linear infinite;
 }
 
 .bingo-bingo .icon {
 	fill: $magenta;
-}
-
-.bingo-cell {
-	width: 30vw;
-	height: 25vh;
-	max-height: 400px;
-	max-width: 400px;
-	text-align: center;
-	position: relative;
-	border: 2px solid black;
-	padding: 0;
-}
-
-.bingo-table {
-	margin: auto;
-}
-
-.done {
-	opacity: 0;
-	pointer-events: none;
+	animation: spin 1s ease-in-out;
+	animation-iteration-count: 3;
 }
 
 
@@ -114,6 +91,20 @@
 
 	100% {
 		transform: scale(0.95);
+	}
+}
+
+@keyframes spin {
+	0% {
+		transform: scaleX(1);
+	}
+
+	50% {
+		transform: scaleX(.01);
+	}
+
+	100% {
+		transform: scaleX(1);
 	}
 }
 
@@ -139,3 +130,50 @@ button fades out, star starts small and gets big, spins and slows down and stops
 	  opacity:0;
 	}
   }
+
+
+  
+.button-holder {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+}
+
+.word-button {
+	font-family: "Quicksand";
+	font-size: 6vw;
+	box-shadow: 20px 38px 34px -26px hsla(0,0%,0%,.2);
+	border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+	padding: .5rem 1rem;
+	font-weight: bold;
+	cursor: pointer;
+	&.new-game {
+		background: linear-gradient(-45deg, $aqua, #23a6d5, #23d5ab);
+		background-size: 400% 400%;
+		animation: gradient 15s ease infinite;
+		animation-delay: 4s;
+
+		&:hover {
+			background-color: color.adjust($aqua, $lightness: 10%);
+		}
+	}
+	&.repeat-word {
+		background-color: $lemon;
+		&:hover {
+			background-color: color.adjust($lemon, $lightness: 10%);
+		}
+	}
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
