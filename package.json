@@ -6,7 +6,9 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+	"prepare": "ng build --configuration production --base-href \"https://maryilewis.github.io/sight-word-bingo/\"",
+	"publish": "npx angular-cli-ghpages --dir=dist/sight-word-bingo"
   },
   "private": true,
   "dependencies": {
