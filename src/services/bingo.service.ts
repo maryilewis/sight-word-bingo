@@ -74,8 +74,8 @@ export class BingoService {
 	readWord() {
 		console.log("read", this.currentWord.word);
 		let audio = new Audio();
-		// audio.src = this.currentWord.audioPath;
-		audio.src = "../assets/audio/test.wav"		;
+		audio.src = this.currentWord.audioPath;
+		// audio.src = "../assets/audio/test.wav"		;
 		audio.load();
 		audio.play();
 	}
