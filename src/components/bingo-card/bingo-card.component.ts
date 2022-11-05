@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GameState, WordDefinition, WordState } from 'src/common/common';
 import { BingoService } from 'src/services/bingo.service';
+import { filter, take } from 'rxjs';
 
 @Component({
   selector: 'app-bingo-card',
@@ -24,9 +25,11 @@ export class BingoCardComponent implements OnInit {
 	 * 
 	 */
   constructor(private bingoService: BingoService) {
+
 	this.bingoService.cardList$.subscribe(list => {
 		this.cardGrid = this.cardify(list);
 	});
+
 	this.bingoService.gameState$.subscribe(gameState => {
 		this.currentGameState = gameState;
 	});

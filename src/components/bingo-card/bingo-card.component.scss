@@ -1,15 +1,22 @@
+@use 'sass:color' as color;
+@import '../../assets/variables.scss';
+
+
 .bingo-button {
 	font-family: "Quicksand";
-	background-color: greenyellow;
-	border: 2px solid black;
+	background-color: $lime;
 	border-radius: unset;
+	border: unset;
 	width: 100%;
 	height: 100%;
 	margin: 0;
-	padding: 5.5vh 0;
 	font-size: 8vw;
 	cursor: pointer;
-	// border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+	transition: opacity 2s;
+	opacity: 1;
+	&:hover {
+		background-color: color.adjust($lime, $lightness: 10%);
+	}
 }
 
 .button-holder {
@@ -28,20 +35,24 @@
 	font-weight: bold;
 	cursor: pointer;
 	&.new-game {
-		background-color: aqua;
+		background-color: $aqua;
+		&:hover {
+			background-color: color.adjust($aqua, $lightness: 10%);
+		}
 	}
 	&.repeat-word {
-		background-color: yellow;
+		background-color: $lemon;
+		&:hover {
+			background-color: color.adjust($lemon, $lightness: 10%);
+		}
 	}
 }
 
 @media screen and (min-width: 1000px) {
 	.bingo-button {
 	   font-size: 80px;
-	   padding: 1em 0;
 	}
   }
-
 
 .bingo-bingo, .bingo-correct, .bingo-incorrect {
 	position: absolute;
@@ -55,8 +66,8 @@
 	align-items: center;
 	pointer-events: none;
 	.icon {
-		width: 50%;
-		height: 50%;
+		width: 12vw;
+		height: auto;
 		z-index: 100;
 		position: relative;
 		animation: pulse 2s linear infinite;
@@ -64,11 +75,11 @@
 }
 
 .bingo-correct .icon {
-	fill: gold;
+	fill: $lemon;
 }
 
 .bingo-bingo .icon {
-	fill: palevioletred;
+	fill: $magenta;
 }
 
 .bingo-cell {
@@ -78,6 +89,8 @@
 	max-width: 400px;
 	text-align: center;
 	position: relative;
+	border: 2px solid black;
+	padding: 0;
 }
 
 .bingo-table {
@@ -85,7 +98,8 @@
 }
 
 .done {
-	display: none;
+	opacity: 0;
+	pointer-events: none;
 }
 
 
